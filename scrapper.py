@@ -52,12 +52,15 @@ for e in subtext_tag:
 	text = e.text
 	text = ' '.join(text.split())
 	text = text.split(" ")
+	print(text)
 	if "points" in e.text:
 		points.append(int(text[0]))
 	else:
 		points.append(-1)
-	if "comments" in e.text:
+	if "comments" in e.text and "points" in e.text:
 		comments.append(int(text[10]))
+	elif "comments" in e.text:
+		comments.append(int(text[8]))
 	else:
 		comments.append(-1)
 
