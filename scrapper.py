@@ -19,9 +19,9 @@ class HackerNews:
 
 #function to print the list of news
 
-def printList(pList):
+def print_list(p_list):
 
-	for e in pList:
+	for e in p_list:
 
 			print(e.rank, end=" ")
 
@@ -44,17 +44,17 @@ def printList(pList):
 			print("\n")
 
 #initializing lists
-listtitle = []
+list_title = []
 
-listpoints = []
+list_points = []
 
-listcomments = []
+list_comments = []
 
-listnews = []
+list_news = []
 
-list1 = []
+list_by_comms = []
 
-list2 = []
+list_by_points = []
 
 #getting the html from the url
 result = requests.get('https://news.ycombinator.com')
@@ -68,7 +68,7 @@ eq2 = eq.find_all('td', class_='subtext')
 
 #getting titles
 for e in eq1:
-	listtitle.append(e.text)
+	list_title.append(e.text)
 
 #getting the points and comments from each td
 for e in eq2:
@@ -76,34 +76,34 @@ for e in eq2:
 	subtext = ' '.join(subtext.split())
 	subtext = subtext.split(" ")
 	if "points" in e.text:
-		listpoints.append(int(subtext[0]))
+		list_points.append(int(subtext[0]))
 	else:
-		listpoints.append(-1)
+		list_points.append(-1)
 	if "comments" in e.text:
-		listcomments.append(int(subtext[10]))
+		list_comments.append(int(subtext[10]))
 	else:
-		listcomments.append(-1)
+		list_comments.append(-1)
 
 #adding each object to the list
 for i in range(30):
-	listnews.append(HackerNews(i + 1, listtitle[i], listpoints[i], listcomments[i]))
+	list_news.append(HackerNews(i + 1, list_title[i], list_points[i], list_comments[i]))
 
 #filtering titles with more than 5 words or with 5 or less words
-for e in listnews:
+for e in list_news:
 	if str(e.title).__len__() > 5:
-		list1.append(e)
+		list_by_comms.append(e)
 	else:
-		list2.append(e)
+		list_by_points.append(e)
 
 #sorting by comments
-list1.sort(key=lambda x: x.comments, reverse=True)
+list_by_comms.sort(key=lambda x: x.comments, reverse=True)
 #sorting by points
-list2.sort(key=lambda x: x.points, reverse=True)
+list_by_points.sort(key=lambda x: x.points, reverse=True)
 
 #printing the information
 print("Hacker News\n")
-printList(listnews)
+print_list(listnews)
 print("Hacker News filtered by comments\n")
-printList(list1)
+print_list(list1)
 print("Hacker News filtered by points")
-printList(list2)
+print_list(list2)
